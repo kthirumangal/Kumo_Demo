@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KumoRFM demo — setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B0F1A;--panel:#141A28;--p2:#1B2333;--bd:#263041;--tx:#E6EAF2;--mu:#8A94A6;--fa:#5C6675;
+--teal:#2DD4BF;--amb:#F5A623;--cor:#F26D5B;--vio:#7C6FF0;--pink:#E879A6}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--tx);
+  font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+.deck{height:100vh;display:flex;align-items:center;justify-content:center;padding:34px}
+.slide{display:none;width:100%;max-width:1120px}
+.slide.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--vio);margin:0 0 10px}
+h1{font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;letter-spacing:-.03em;
+  margin:0 0 12px;line-height:1.12}
+h2{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;margin:0 0 12px;letter-spacing:-.01em}
+.lead{font-size:17px;color:var(--mu);line-height:1.6;margin:0 0 26px;max-width:820px}
+.brandbar{display:flex;align-items:center;gap:13px;margin-bottom:26px}
+.mark{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:21px;color:#0B0F1A;
+  background:linear-gradient(135deg,var(--teal),var(--vio))}
+.mark+div h3{font-family:'Space Grotesk',sans-serif;font-size:20px;margin:0;font-weight:700;letter-spacing:-.02em}
+.mark+div p{margin:0;color:var(--mu);font-size:13px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:17px 18px}
+.card .k{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--fa);margin-bottom:10px}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl td{padding:5px 0;border-bottom:1px solid rgba(38,48,65,.55);vertical-align:top}
+.tbl tr:last-child td{border:none}
+.tbl .c{font-family:'IBM Plex Mono',monospace;color:var(--tx);white-space:nowrap;padding-right:14px}
+.tbl .d{color:var(--mu)}
+.pk{font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:1px 5px;border-radius:4px;
+  background:rgba(45,212,191,.14);color:var(--teal);margin-left:6px}
+.fk{font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:1px 5px;border-radius:4px;
+  background:rgba(124,111,240,.16);color:var(--vio);margin-left:6px}
+.tm{font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:1px 5px;border-radius:4px;
+  background:rgba(245,166,35,.14);color:var(--amb);margin-left:6px}
+.stat{display:flex;gap:26px;flex-wrap:wrap;margin-top:14px}
+.stat div{font-size:12.5px;color:var(--mu)}
+.stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:23px;color:var(--tx);
+  font-weight:600;letter-spacing:-.02em}
+ul.list{margin:0;padding:0;list-style:none}
+ul.list li{font-size:14px;color:var(--mu);line-height:1.55;padding:7px 0 7px 20px;position:relative}
+ul.list li:before{content:'';position:absolute;left:0;top:15px;width:7px;height:7px;border-radius:50%;
+  background:var(--vio)}
+ul.list li b{color:var(--tx);font-weight:600}
+ul.list.yes li:before{background:var(--teal)}
+ul.list.no li:before{background:var(--cor)}
+code{font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--p2);
+  border:1px solid var(--bd);border-radius:5px;padding:1px 6px;color:var(--teal)}
+pre{font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.7;color:#CDD6E6;
+  background:#0A0E17;border:1px solid var(--bd);border-radius:11px;padding:14px 16px;margin:0;overflow:auto}
+pre .kw{color:var(--vio);font-weight:600}
+pre .cm{color:var(--fa)}
+.flow{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:8px 0 4px}
+.node{background:var(--p2);border:1px solid var(--bd);border-radius:10px;padding:11px 15px;text-align:center}
+.node .t{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600}
+.node .s{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--fa);margin-top:3px}
+.node.c{border-color:var(--teal)}.node.p{border-color:var(--amb)}.node.t2{border-color:var(--vio)}
+.arrow{color:var(--fa);font-size:17px}
+.note{margin-top:18px;background:linear-gradient(180deg,rgba(124,111,240,.09),rgba(124,111,240,.03));
+  border:1px solid var(--bd);border-left:3px solid var(--vio);border-radius:0 12px 12px 0;
+  padding:13px 16px;font-size:13.5px;color:var(--mu);line-height:1.6}
+.note b{color:var(--tx)}
+.nav{position:fixed;bottom:18px;right:22px;display:flex;align-items:center;gap:12px;
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--fa)}
+.nav button{background:var(--p2);border:1px solid var(--bd);color:var(--mu);border-radius:7px;
+  padding:5px 11px;cursor:pointer;font-family:inherit;font-size:12px}
+.nav button:hover{color:var(--tx)}
+@media(max-width:900px){.cols,.cols3{grid-template-columns:1fr}h1{font-size:30px}}
+</style></head><body>
+<div class="deck">
+
+<!-- 1 -->
+<section class="slide on">
+  <div class="brandbar"><span class="mark">K</span>
+    <div><h3>KumoRFM</h3><p>Relational foundation model · NVIDIA NIM</p></div></div>
+  <p class="eyebrow">What we're looking at</p>
+  <h1>One graph. Many questions.<br>No model training.</h1>
+  <p class="lead">KumoRFM is a pre-trained foundation model for <b style="color:var(--tx)">relational</b> data.
+    You point it at linked tables, write a predictive query, and it answers — no feature engineering,
+    no training run, no per-task model.</p>
+  <div class="cols3">
+    <div class="card"><div class="k">Traditional ML</div>
+      <ul class="list"><li>Flatten tables into one wide row per entity</li>
+      <li>Hand-build features (recency, frequency, ratios)</li>
+      <li>Train a separate model per question</li></ul></div>
+    <div class="card"><div class="k">KumoRFM</div>
+      <ul class="list yes"><li>Keeps the tables and their foreign keys</li>
+      <li>Learns from the graph structure directly</li>
+      <li>New question = new query, same model</li></ul></div>
+    <div class="card"><div class="k">Why it matters here</div>
+      <ul class="list"><li>Churn, engagement, spend and recommendations from <b>one</b> graph</li>
+      <li>Signal can come from <b>other customers'</b> behaviour, not just your own rows</li></ul></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <p class="eyebrow">Input · the mock dataset</p>
+  <h1>Three tables, two foreign keys</h1>
+  <p class="lead">A synthetic B2C sales business. This is the entire input — the model reads these
+    tables as a graph; nothing is pre-aggregated.</p>
+
+  <div class="flow">
+    <div class="node c"><div class="t">customers</div><div class="s">200 rows · entity</div></div>
+    <span class="arrow">←</span>
+    <div class="node t2"><div class="t">transactions</div><div class="s">7,120 rows · events</div></div>
+    <span class="arrow">→</span>
+    <div class="node p"><div class="t">products</div><div class="s">60 rows · catalogue</div></div>
+  </div>
+
+  <div class="cols3" style="margin-top:14px">
+    <div class="card"><div class="k">customers</div>
+      <table class="tbl">
+        <tr><td class="c">customer_id<span class="pk">PK</span></td><td class="d">C001…C200</td></tr>
+        <tr><td class="c">name</td><td class="d">display only</td></tr>
+        <tr><td class="c">signup_date<span class="tm">time</span></td><td class="d">2021–2023</td></tr>
+        <tr><td class="c">segment</td><td class="d">Enterprise · SMB · Consumer</td></tr>
+        <tr><td class="c">region</td><td class="d">N · S · E · W</td></tr>
+        <tr><td class="c">district</td><td class="d">8 books of business</td></tr>
+        <tr><td class="c">manager</td><td class="d">owning account manager</td></tr>
+      </table></div>
+    <div class="card"><div class="k">transactions</div>
+      <table class="tbl">
+        <tr><td class="c">transaction_id<span class="pk">PK</span></td><td class="d">T00001…</td></tr>
+        <tr><td class="c">customer_id<span class="fk">FK</span></td><td class="d">→ customers</td></tr>
+        <tr><td class="c">product_id<span class="fk">FK</span></td><td class="d">→ products</td></tr>
+        <tr><td class="c">transaction_date<span class="tm">time</span></td><td class="d">Jul 2021 – Jan 2024</td></tr>
+        <tr><td class="c">amount</td><td class="d">line total</td></tr>
+        <tr><td class="c">quantity</td><td class="d">1–3</td></tr>
+      </table></div>
+    <div class="card"><div class="k">products</div>
+      <table class="tbl">
+        <tr><td class="c">product_id<span class="pk">PK</span></td><td class="d">P001…P060</td></tr>
+        <tr><td class="c">product_name</td><td class="d">display only</td></tr>
+        <tr><td class="c">category</td><td class="d">5 categories</td></tr>
+        <tr><td class="c">price</td><td class="d">$10–$900</td></tr>
+        <tr><td class="c">launch_date<span class="tm">time</span></td><td class="d">2021+</td></tr>
+      </table></div>
+  </div>
+
+  <div class="stat">
+    <div><b>2.6 yr</b>of history</div>
+    <div><b>35.6</b>purchases per customer</div>
+    <div><b>6,774</b>graph nodes</div>
+    <div><b>26,056</b>graph edges</div>
+    <div><b>0</b>engineered features</div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <p class="eyebrow">The queries</p>
+  <h1>Four questions, one line each</h1>
+  <p class="lead">Predictive Query Language. Same graph, same model — only the query changes.
+    Each returns a calibrated result per customer.</p>
+  <pre><span class="cm"># Churn — will they go quiet?</span>
+<span class="kw">PREDICT</span> COUNT(transactions.*, 0, 90, days)=0  <span class="kw">FOR EACH</span> customers.customer_id
+
+<span class="cm"># Engagement — will they buy at all?</span>
+<span class="kw">PREDICT</span> COUNT(transactions.*, 0, 30, days)&gt;0  <span class="kw">FOR EACH</span> customers.customer_id
+
+<span class="cm"># Spend forecast — how much?</span>
+<span class="kw">PREDICT</span> SUM(transactions.amount, 0, 30, days) <span class="kw">FOR EACH</span> customers.customer_id
+
+<span class="cm"># Recommendation — what next? (link prediction over the product FK)</span>
+<span class="kw">PREDICT</span> LIST_DISTINCT(transactions.product_id, 0, 30, days)
+        <span class="kw">RANK TOP</span> 5 <span class="kw">FOR EACH</span> customers.customer_id</pre>
+  <div class="note"><b>Anchor time</b> is a first-class parameter. The model builds context only from
+    events <b>before</b> the anchor and predicts the window after it — which is what prevents leakage.
+    The demo exposes it as a slider.</div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <p class="eyebrow">Scope</p>
+  <h1>What's real, and what isn't</h1>
+  <div class="cols">
+    <div class="card"><div class="k">Real</div>
+      <ul class="list yes">
+        <li><b>The model.</b> Every number in the prediction panel is returned by KumoRFM running as an NVIDIA NIM.</li>
+        <li><b>The queries.</b> The PQL shown on screen is exactly what is sent.</li>
+        <li><b>The SDK path.</b> <code>nvidia-sdfm[kumorfm]</code> → hosted endpoint. No mocking.</li>
+        <li><b>Anchor time.</b> A genuine model parameter, not a UI effect.</li>
+      </ul></div>
+    <div class="card"><div class="k">Not real</div>
+      <ul class="list no">
+        <li><b>The data.</b> 100% synthetic and seeded — customers, products, districts and managers are invented.</li>
+        <li><b>The business.</b> District risk profiles were generated to make the rollup interesting.</li>
+        <li><b>The graph visuals.</b> They depict the model's <i>input</i>, not its internal attention.</li>
+        <li><b>Confidence.</b> Aggregates sum point estimates; no error bars.</li>
+      </ul></div>
+  </div>
+  <div class="note"><b>What this demo is for:</b> showing how a relational foundation model is queried and
+    how its output lands in a decision-maker's hands — from a company-level summary down to one customer's
+    neighbourhood. <b>What it is not:</b> a benchmark, an accuracy claim, or a validated business case.</div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <p class="eyebrow">What you'll see next</p>
+  <h1>From the whole company<br>to one customer</h1>
+  <div class="cols">
+    <div class="card"><div class="k">The walkthrough</div>
+      <ul class="list">
+        <li><b>Executive summary</b> — revenue at risk, forecast revenue, engagement across all 200 customers.</li>
+        <li><b>Districts</b> — the same scores rolled up by book of business and account manager.</li>
+        <li><b>Category / Product</b> — what the business sells and who buys it.</li>
+        <li><b>Customer</b> — one account's history, its neighbourhood, and a prediction with the query that produced it.</li>
+      </ul></div>
+    <div class="card"><div class="k">Watch for</div>
+      <ul class="list yes">
+        <li>Switching strategy <b>re-colours the whole graph</b> — one model, four questions.</li>
+        <li>Risk <b>clusters by district</b> rather than scattering.</li>
+        <li>A recommendation for a product the customer has <b>never bought</b> — that signal can only come from other customers.</li>
+        <li>Sliding the <b>anchor</b> back shrinks the context and changes the answer.</li>
+      </ul></div>
+  </div>
+  <div class="note">Running against <code>rfm-nim.dev.kumoai.cloud</code> · SDK <code>nvidia-sdfm 0.2.1</code> ·
+    <code>kumorfm 2.28.0</code>. Every prediction is a live call.</div>
+</section>
+
+</div>
+<div class="nav">
+  <button id="prev">←</button><span id="pos">1 / 5</span><button id="next">→</button>
+</div>
+<script>
+const sl=[...document.querySelectorAll('.slide')];let i=0;
+function go(n){i=Math.max(0,Math.min(sl.length-1,n));
+  sl.forEach((s,k)=>s.classList.toggle('on',k===i));
+  document.getElementById('pos').textContent=(i+1)+' / '+sl.length;}
+document.getElementById('next').onclick=()=>go(i+1);
+document.getElementById('prev').onclick=()=>go(i-1);
+addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1);}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(i-1);}
+  if(e.key==='Home')go(0); if(e.key==='End')go(sl.length-1);});
+</script></body></html>
