@@ -19,14 +19,24 @@ the server builds the graph once at startup and exposes `/predict` and
 `/predict_batch`. It contains no scoring logic — every number comes from the
 model.
 
+A 65-second walkthrough is in [`media/kumorfm-demo.mp4`](media/kumorfm-demo.mp4).
+
 ## Steps to deploy
 
-Requires Python 3.10–3.13 and a reachable Kumo Relational NIM endpoint.
+> **An API key is required.** This demo makes live calls to a Kumo Relational
+> NIM endpoint — it ships no model and no cached predictions, so without a key
+> and a reachable endpoint nothing will run. No key is included in this repo.
+> Get one for the shared NVIDIA endpoint from the `#kumo-usecase-intake` Slack
+> channel, or point `KUMO_URL` at a NIM you host yourself.
+
+Requires Python 3.10–3.13, plus that endpoint and key.
 
 ```bash
-cp .env.example .env     # add KUMO_API_KEY, and KUMO_URL if not the default
+cp .env.example .env     # set KUMO_API_KEY (required) and KUMO_URL
 ./dashboard.sh           # creates .venv, installs deps, starts the server
 ```
+
+`dashboard.sh` exits immediately if `KUMO_API_KEY` is empty.
 
 Open <http://localhost:8080/>.
 
